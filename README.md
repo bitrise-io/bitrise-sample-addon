@@ -1,1 +1,0 @@
-# bitrise-sample-addon
