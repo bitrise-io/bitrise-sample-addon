@@ -1,0 +1,5 @@
+{
+  "name": "bitrise-sample-addon",
+  "private": true,
+  "dependencies": {}
+}
