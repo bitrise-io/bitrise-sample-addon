@@ -6,4 +6,4 @@ services:
     volumes:
       - .:/bitrise-sample-addon
     ports:
-      - "3000:3000"
+      - "3008:3000"
