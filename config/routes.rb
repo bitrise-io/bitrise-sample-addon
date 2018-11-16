@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   post   '/provision'         => 'application#provision'
   put    '/provision/:slug'   => 'application#change_plan'
   delete '/provision/:slug'   => 'application#deprovision'
+  get    '/login'             => 'application#login'
 end
