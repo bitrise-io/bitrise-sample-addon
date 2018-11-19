@@ -11,6 +11,10 @@ class DataStore
     return api_token
   end
 
+  def deprovision_addon_for_app(app_slug)
+    @provisioned_apps[app_slug] = nil
+  end
+
   def update_plan!(app_slug, plan)
     raise 'The requested plan is not available for the addon!' if !['free', 'unlimited'].include?(plan)
     @provisioned_apps[app_slug][:plan] = plan
