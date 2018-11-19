@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: .
-    command: bash -c "bundle exec ruby app.rb"
+    command: bash -c "rackup config.ru"
     volumes:
       - .:/bitrise-sample-addon
     ports:
