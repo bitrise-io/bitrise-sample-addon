@@ -9,7 +9,7 @@ class App < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  addon_token = "development_token"
+  addon_token = "development-token"
   data_store = DataStore.new
 
   get '/' do
