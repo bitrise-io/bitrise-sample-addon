@@ -9,6 +9,7 @@ class App < Sinatra::Base
     register Sinatra::Reloader
   end
 
+  addon_token = "development_token"
   data_store = DataStore.new
 
   get '/' do
@@ -16,6 +17,10 @@ class App < Sinatra::Base
   end
 
   post '/provision' do
+    if addon_token != request.env['HTTP_AUTHENTICATION']
+      status 401
+      return {message: 'unauthorized'}.to_json
+    end
     request.body.rewind
     request_payload = JSON.parse(request.body.read)
     access_token = data_store.provision_addon_for_app(request_payload['app_slug'], request_payload['plan'], SecureRandom.hex(32))
@@ -23,9 +28,9 @@ class App < Sinatra::Base
   end
 
   put '/provision/:app_slug' do
-    if !data_store.authenticate(params['app_slug'], request.env['HTTP_AUTHENTICATION'])
+    if addon_token != request.env['HTTP_AUTHENTICATION']
       status 401
-      {message: 'unauthorized'}.to_json
+      return {message: 'unauthorized'}.to_json
     end
     request.body.rewind
     request_payload = JSON.parse(request.body.read)
@@ -40,9 +45,9 @@ class App < Sinatra::Base
   end
 
   delete '/provision/:app_slug' do
-    if !data_store.authenticate(params['app_slug'], request.env['HTTP_AUTHENTICATION'])
+    if addon_token != request.env['HTTP_AUTHENTICATION']
       status 401
-      {message: 'unauthorized'}.to_json
+      return {message: 'unauthorized'}.to_json
     end
 
     data_store.deprovision_addon_for_app(params['app_slug'])
@@ -63,7 +68,7 @@ class App < Sinatra::Base
   get '/ascii-art/:app_slug' do
     if !data_store.authenticate(params['app_slug'], request.env['HTTP_AUTHENTICATION'])
       status 401
-      {message: 'unauthorized'}.to_json
+      return {message: 'unauthorized'}.to_json
     end
 
     begin

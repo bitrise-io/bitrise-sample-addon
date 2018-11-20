@@ -12,7 +12,7 @@ class DataStore
   end
 
   def deprovision_addon_for_app(app_slug)
-    @provisioned_apps[app_slug] = nil
+    @provisioned_apps.delete(app_slug)
   end
 
   def update_plan!(app_slug, plan)
@@ -21,12 +21,12 @@ class DataStore
   end
 
   def authenticate(app_slug, api_token)
-    return false if !@provisioned_apps[app_slug] || @provisioned_apps[app_slug][:api_token] != api_token
+    return false if !@provisioned_apps[app_slug] || @provisioned_apps[app_slug]&.[](:api_token) != api_token
     true
   end
 
   def check_limit!(app_slug)
-    return if @provisioned_apps[app_slug][:plan] == 'unlimited'
+    return if @provisioned_apps[app_slug]&.[](:plan) == 'unlimited'
     @request_numbers[app_slug] = 0 if !@request_numbers[app_slug]
     if @request_numbers[app_slug] >= 5
       raise 'No more request is enabled, upgrade to `unlimited` plan for more'
