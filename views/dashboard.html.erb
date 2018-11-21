@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #F8F8F6;
+        font-family: papyrus;
+      }
+      h1 {
+        text-align: center;
+      }
+      .content {
+        padding-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="content">
+      <h1>Hello Bitrise Addon Developer!</h1>
+      <p><b>App slug:</b> <%= @app_slug %></p>
+      <p><b>Plan: </b> <%= @app[:plan] %></p>
+    </div>
+    <script src="https://unpkg.com/@bitrise/beam@0.1.6/dist/beam.min.js"></script>
+    <script type="text/javascript">
+      Beam.init({
+          app_slug: "<%= @app_slug %>",
+          app_name: "valami"
+      });
+    </script>
+  </body>
+</html>

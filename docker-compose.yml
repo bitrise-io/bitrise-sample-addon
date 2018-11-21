@@ -10,3 +10,4 @@ services:
     environment:
       - ADDON_TOKEN=development-token
       - ADDON_SSO_SECRET=development-sso-secret
+      - BITRISE_BEAM_VERSION=0.1.6

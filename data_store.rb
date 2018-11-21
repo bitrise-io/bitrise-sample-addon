@@ -2,13 +2,17 @@ class DataStore
   def initialize
     @provisioned_apps = {}
     @request_numbers = {}
-    @app_plans = {}
   end
 
-  def provision_addon_for_app(app_slug, plan, api_token)
-    return @provisioned_apps[app_slug][:api_token] if @provisioned_apps.keys.include?(app_slug)
+  def provision_addon_for_app!(app_slug, plan, api_token)
+    raise 'The requested plan is not available for the addon!' if !valid_plan?(plan)
+    return @provisioned_apps[app_slug] if @provisioned_apps.keys.include?(app_slug)
     @provisioned_apps[app_slug] = {api_token: api_token, plan: plan}
-    return api_token
+    return @provisioned_apps[app_slug]
+  end
+
+  def get_app(app_slug)
+    return @provisioned_apps[app_slug]
   end
 
   def deprovision_addon_for_app(app_slug)
@@ -16,13 +20,12 @@ class DataStore
   end
 
   def update_plan!(app_slug, plan)
-    raise 'The requested plan is not available for the addon!' if !['free', 'unlimited'].include?(plan)
-    @provisioned_apps[app_slug][:plan] = plan
+    raise 'The requested plan is not available for the addon!' if !valid_plan?(plan)
+    return @provisioned_apps[app_slug][:plan] = plan
   end
 
-  def authenticate(app_slug, api_token)
-    return false if !@provisioned_apps[app_slug] || @provisioned_apps[app_slug]&.[](:api_token) != api_token
-    true
+  def valid_plan?(plan)
+    return ['free', 'unlimited'].include?(plan)
   end
 
   def check_limit!(app_slug)
