@@ -87,7 +87,7 @@ class App < Sinatra::Base
       halt 400, {message: ex.to_s}.to_json
     end
 
-    file = File.open('assets/bitbot.txt')
+    file = File.open("assets/art#{Random.rand(1..3)}.txt")
     bitbot = []
     file.each do |line|
       bitbot = bitbot.concat([line.to_s])
