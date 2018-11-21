@@ -9,18 +9,21 @@ class App < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  addon_token = "development-token"
+  addon_token = ENV['ADDON_TOKEN']
+  sso_secret = ENV['ADDON_SSO_SECRET']
   data_store = DataStore.new
+
+  before /\/(provision)\/*/ do
+    if addon_token != request.env['HTTP_AUTHENTICATION']
+      halt 401, {message: 'unauthorized'}.to_json
+    end
+  end
 
   get '/' do
     'Welcome to Bitrise Sample Addon'
   end
 
   post '/provision' do
-    if addon_token != request.env['HTTP_AUTHENTICATION']
-      status 401
-      return {message: 'unauthorized'}.to_json
-    end
     request.body.rewind
     request_payload = JSON.parse(request.body.read)
     access_token = data_store.provision_addon_for_app(request_payload['app_slug'], request_payload['plan'], SecureRandom.hex(32))
@@ -55,11 +58,11 @@ class App < Sinatra::Base
   end
 
   post '/login' do
-    sso_token = 'development-sso-secret'
-    calc_sso_token = Digest::SHA1.hexdigest "#{params['app_slug']}:#{sso_token}:#{params['timestamp']}"
+    calc_sso_token = Digest::SHA1.hexdigest "#{params['app_slug']}:#{sso_secret}:#{params['timestamp']}"
+
     if params['token'] != calc_sso_token
       status 401
-      return {message: "#{params['token']}"}.to_json
+      return {message: "unauthorized"}.to_json
     end
 
     return "<!DOCTYPE html><html><body><h1>Hello Bitrise Addon Developer!</h1></body></html>"

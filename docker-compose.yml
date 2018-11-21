@@ -7,3 +7,6 @@ services:
       - .:/bitrise-sample-addon
     ports:
       - "3008:4567"
+    environment:
+      - ADDON_TOKEN=development-token
+      - ADDON_SSO_SECRET=development-sso-secret
