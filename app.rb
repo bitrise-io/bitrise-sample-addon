@@ -24,10 +24,6 @@ class App < Sinatra::Base
     end
   end
 
-  before /\/(ascii-art)[\/][\w]*/ do
-
-  end
-
   get '/' do
     'Welcome to Bitrise Sample Addon'
   end
@@ -38,8 +34,7 @@ class App < Sinatra::Base
     begin
       app = data_store.provision_addon_for_app!(request_payload['app_slug'], request_payload['plan'], SecureRandom.hex(32))
     rescue StandardError => ex
-      status 400
-      return {message: ex.to_s}.to_json
+      halt 400, {message: ex.to_s}.to_json
     end
     {envs: [{"key": "BITRISE_SAMPLE_ADDON_ACCESS_TOKEN", "value": app[:api_token]}]}.to_json
   end
@@ -55,8 +50,7 @@ class App < Sinatra::Base
       data_store.update_plan!(params[:app_slug], request_payload['plan'])
       {message: 'ok'}.to_json
     rescue StandardError => ex
-      status 400
-      return {message: ex.to_s}.to_json
+      halt 400, {message: ex.to_s}.to_json
     end
   end
 
@@ -73,8 +67,7 @@ class App < Sinatra::Base
     calc_sso_token = Digest::SHA1.hexdigest "#{params[:app_slug]}:#{sso_secret}:#{params['timestamp']}"
 
     if params['token'] != calc_sso_token
-      status 401
-      return {message: "unauthorized"}.to_json
+      halt 401, {message: "unauthorized"}.to_json
     end
     @app_slug = params[:app_slug]
     @app = app
@@ -87,11 +80,11 @@ class App < Sinatra::Base
     if !authenticated
       halt 401, {message: 'unauthorized'}.to_json
     end
+
     begin
       data_store.check_limit!(params[:app_slug])
     rescue StandardError => ex
-      status 400
-      return {message: ex.to_s}.to_json
+      halt 400, {message: ex.to_s}.to_json
     end
 
     file = File.open('assets/bitbot.txt')
