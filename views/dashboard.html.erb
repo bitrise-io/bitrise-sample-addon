@@ -20,11 +20,11 @@
       <p><b>App slug:</b> <%= @app_slug %></p>
       <p><b>Plan: </b> <%= @app[:plan] %></p>
     </div>
-    <script src="https://unpkg.com/@bitrise/beam@0.1.6/dist/beam.min.js"></script>
+    <script src="https://unpkg.com/@bitrise/beam@latest/dist/beam.min.js"></script>
     <script type="text/javascript">
       Beam.init({
           app_slug: "<%= @app_slug %>",
-          app_name: "valami"
+          app_name: "Awesome app"
       });
     </script>
   </body>
