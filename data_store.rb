@@ -16,8 +16,9 @@ class DataStore
     if app != nil
       return app
     end
-    @provisioned_apps << App.new(app_slug, plan, api_token)
-    return @provisioned_apps.last
+    provisioned_app = App.new(app_slug, plan, api_token)
+    @provisioned_apps << provisioned_app
+    return provisioned_app
   end
 
   def get_app(app_slug)

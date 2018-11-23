@@ -15,10 +15,6 @@ class App < Sinatra::Base
   sso_secret = ENV['ADDON_SSO_SECRET']
   data_store = DataStore.new
 
-  before '/login' do
-    @beam_version = ENV['BITRISE_BEAM_VERSION']
-  end
-
   before /\/(provision)[\/]*[\w]*/ do
     # checking the Authentication request header
     if request.env['HTTP_AUTHENTICATION'] != addon_token
