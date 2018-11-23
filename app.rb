@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/data_store'
+require File.dirname(__FILE__) + '/errors'
 require 'sinatra/base'
 require 'sinatra/reloader'
 
@@ -19,6 +20,7 @@ class App < Sinatra::Base
   end
 
   before /\/(provision)[\/]*[\w]*/ do
+    # checking the Authentication request header
     if request.env['HTTP_AUTHENTICATION'] != addon_token
       halt 401, {message: 'unauthorized'}.to_json
     end
@@ -41,7 +43,7 @@ class App < Sinatra::Base
 
   put '/provision/:app_slug' do
     if data_store.get_app(params[:app_slug]) == nil
-      halt 400, {message: 'no app provisioned with this slug'}.to_json
+      halt 404, {message: 'app cannot be found'}.to_json
     end
     request.body.rewind
     request_payload = JSON.parse(request.body.read)
@@ -49,6 +51,8 @@ class App < Sinatra::Base
     begin
       data_store.update_plan!(params[:app_slug], request_payload['plan'])
       {message: 'ok'}.to_json
+    rescue NotFoundError => ex
+      halt 404, {message: ex.to_s}.to_json
     rescue StandardError => ex
       halt 400, {message: ex.to_s}.to_json
     end
@@ -76,6 +80,8 @@ class App < Sinatra::Base
 
   get '/ascii-art/:app_slug' do
     app = data_store.get_app(params[:app_slug])
+
+    # checking the Authentication request header
     authenticated = app&.[](:api_token) == request.env['HTTP_AUTHENTICATION']
     if !authenticated
       halt 401, {message: 'unauthorized'}.to_json
@@ -83,6 +89,8 @@ class App < Sinatra::Base
 
     begin
       data_store.check_limit!(params[:app_slug])
+    rescue NotFoundError => ex
+      halt 404, {message: ex.to_s}.to_json
     rescue StandardError => ex
       halt 400, {message: ex.to_s}.to_json
     end

@@ -1,3 +1,5 @@
+require File.dirname(__FILE__) + '/errors'
+
 class DataStore
   App = Struct.new(:slug, :plan, :api_token){}
 
@@ -7,16 +9,22 @@ class DataStore
   end
 
   def provision_addon_for_app!(app_slug, plan, api_token)
-    raise 'The requested plan is not available for the addon!' if !valid_plan?(plan)
+    if !valid_plan?(plan)
+      raise 'the requested plan is not available for the addon!'
+    end
     app = get_app(app_slug)
-    return app if app != nil
+    if app != nil
+      return app
+    end
     @provisioned_apps << App.new(app_slug, plan, api_token)
     return @provisioned_apps.last
   end
 
   def get_app(app_slug)
     @provisioned_apps.each do |app|
-      return app if app.slug == app_slug
+      if app.slug == app_slug
+        return app
+      end
     end
     return nil
   end
@@ -26,9 +34,15 @@ class DataStore
   end
 
   def update_plan!(app_slug, plan)
-    raise 'The requested plan is not available for the addon!' if !valid_plan?(plan)
+    if !valid_plan?(plan)
+      raise 'the requested plan is not available for the addon!'
+    end
     app = get_app(app_slug)
-    return app.plan = plan
+    if !app
+      return NotFoundError.new 'app cannot be found'
+    end
+    app.plan = plan
+    return
   end
 
   def valid_plan?(plan)
@@ -37,10 +51,15 @@ class DataStore
 
   def check_limit!(app_slug)
     app = get_app(app_slug)
-    return if app.plan == 'unlimited'
+    if !app
+      return NotFoundError.new 'app cannot be found'
+    end
+    if app.plan == 'unlimited'
+      return
+    end
     @request_numbers[app_slug] = 0 if !@request_numbers[app_slug]
     if @request_numbers[app_slug] >= 5
-      raise 'No more request is enabled, upgrade to `unlimited` plan for more'
+      raise 'no more request is enabled, upgrade to `unlimited` plan for more'
     else
       @request_numbers[app_slug] = @request_numbers[app_slug] + 1
     end
