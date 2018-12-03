@@ -1,0 +1,58 @@
+/Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/builder.rb:146:in `to_app': missing run or map statement (RuntimeError)
+	from /Users/gaborszakacs/src/bitrise-sample-addon/config.ru:8:in `<main>'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/builder.rb:49:in `eval'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/builder.rb:49:in `new_from_string'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/builder.rb:40:in `parse_file'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/server.rb:319:in `build_app_and_options_from_config'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/server.rb:219:in `app'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/server.rb:354:in `wrapped_app'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/server.rb:283:in `start'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/lib/rack/server.rb:148:in `start'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/lib/ruby/gems/2.5.0/gems/rack-2.0.6/bin/rackup:4:in `<top (required)>'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/bin/rackup:23:in `load'
+	from /Users/gaborszakacs/.asdf/installs/ruby/2.5.0-preview1/bin/rackup:23:in `<main>'
+Thin web server (v1.7.2 codename Bachmanity)
+Maximum connections set to 1024
+Listening on 0.0.0.0:4567, CTRL+C to stop
+Stopping ...
+Stopping ...
+== Sinatra (v2.0.4) has taken the stage on 4567 for development with backup from Thin
+== Sinatra has ended his set (crowd applauds)
+/usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:146:in `to_app': missing run or map statement (RuntimeError)
+	from /bitrise-sample-addon/config.ru:8:in `<main>'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:49:in `eval'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:49:in `new_from_string'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:40:in `parse_file'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:319:in `build_app_and_options_from_config'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:219:in `app'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:354:in `wrapped_app'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:283:in `start'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:148:in `start'
+	from /usr/local/bundle/gems/rack-2.0.6/bin/rackup:4:in `<top (required)>'
+	from /usr/local/bundle/bin/rackup:23:in `load'
+	from /usr/local/bundle/bin/rackup:23:in `<main>'
+Thin web server (v1.7.2 codename Bachmanity)
+Maximum connections set to 1024
+Listening on 0.0.0.0:4567, CTRL+C to stop
+Stopping ...
+== Sinatra (v2.0.4) has taken the stage on 4567 for development with backup from Thin
+== Sinatra has ended his set (crowd applauds)
+/usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:146:in `to_app': missing run or map statement (RuntimeError)
+	from /bitrise-sample-addon/config.ru:8:in `<main>'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:49:in `eval'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:49:in `new_from_string'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/builder.rb:40:in `parse_file'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:319:in `build_app_and_options_from_config'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:219:in `app'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:354:in `wrapped_app'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:283:in `start'
+	from /usr/local/bundle/gems/rack-2.0.6/lib/rack/server.rb:148:in `start'
+	from /usr/local/bundle/gems/rack-2.0.6/bin/rackup:4:in `<top (required)>'
+	from /usr/local/bundle/bin/rackup:23:in `load'
+	from /usr/local/bundle/bin/rackup:23:in `<main>'
+Thin web server (v1.7.2 codename Bachmanity)
+Maximum connections set to 1024
+Listening on 0.0.0.0:4567, CTRL+C to stop
+Stopping ...
+== Sinatra (v2.0.4) has taken the stage on 4567 for development with backup from Thin
+== Sinatra has ended his set (crowd applauds)
