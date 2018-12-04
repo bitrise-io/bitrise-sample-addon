@@ -18,13 +18,14 @@
     <div class="content">
       <h1>Hello Bitrise Addon Developer!</h1>
       <p><b>App slug:</b> <%= @app.slug %></p>
+      <p><b>App title:</b> <%= @app.title %></p>
       <p><b>Plan: </b> <%= @app.plan %></p>
     </div>
     <script src="https://unpkg.com/@bitrise/beam@latest/dist/beam.min.js"></script>
     <script type="text/javascript">
       Beam.init({
           app_slug: "<%= @app.slug %>",
-          app_name: "Awesome app"
+          app_name: "<%= @app.title %>"
       });
     </script>
   </body>

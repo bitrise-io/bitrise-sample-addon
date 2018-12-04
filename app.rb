@@ -30,7 +30,7 @@ class App < Sinatra::Base
     request.body.rewind
     request_payload = JSON.parse(request.body.read)
     begin
-      app = data_store.provision_addon_for_app!(request_payload['app_slug'], request_payload['plan'], SecureRandom.hex(32))
+      app = data_store.provision_addon_for_app!(request_payload['app_slug'], request_payload['app_title'], request_payload['plan'], SecureRandom.hex(32))
     rescue StandardError => ex
       halt 400, {message: ex.to_s}.to_json
     end
@@ -69,7 +69,6 @@ class App < Sinatra::Base
     if params['token'] != calc_sso_token
       halt 401, {message: "unauthorized"}.to_json
     end
-    @app_slug = params[:app_slug]
     @app = app
     erb :dashboard
   end

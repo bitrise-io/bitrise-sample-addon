@@ -1,14 +1,14 @@
 require File.dirname(__FILE__) + '/errors'
 
 class DataStore
-  App = Struct.new(:slug, :plan, :api_token){}
+  App = Struct.new(:slug, :title, :plan, :api_token){}
 
   def initialize
     @provisioned_apps = []
     @request_numbers = {}
   end
 
-  def provision_addon_for_app!(app_slug, plan, api_token)
+  def provision_addon_for_app!(app_slug, title, plan, api_token)
     if !valid_plan?(plan)
       raise 'the requested plan is not available for the addon!'
     end
@@ -16,7 +16,7 @@ class DataStore
     if app != nil
       return app
     end
-    provisioned_app = App.new(app_slug, plan, api_token)
+    provisioned_app = App.new(app_slug, title, plan, api_token)
     @provisioned_apps << provisioned_app
     return provisioned_app
   end
