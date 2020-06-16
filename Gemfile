@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rack'
-gem 'sinatra'
-gem 'sinatra-contrib'
-gem 'thin'
+gem 'rack', '>= 2.1.4'
+gem 'sinatra', '>= 2.0.4'
+gem 'sinatra-contrib', '>= 2.0.4'
+gem 'thin', '>= 1.7.2'
