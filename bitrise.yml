@@ -1,0 +1,30 @@
+format_version: "8"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+app:
+  envs:
+    - PORT: 3008
+    - ADDON_TOKEN: development-token
+    - ADDON_SSO_SECRET: development-sso-secret
+  
+workflows:
+  setup:
+    steps:
+    - script:
+        title: Setup the service
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            bundle install
+
+  start:
+    steps:
+    - script:
+        title: Start the service
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            echo "Server listening on ${PORT}"
+            bash -c "rackup config.ru"

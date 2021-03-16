@@ -1,0 +1,41 @@
+require: rubocop-rspec
+
+Layout/IndentHash:
+  EnforcedStyle: consistent
+Layout/IndentArray:
+  EnforcedStyle: consistent
+Style/SymbolArray:
+  Enabled: false
+Style/SymbolProc:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/NegatedIf:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
+Naming/AccessorMethodName:
+  Enabled: false
+AllCops:
+  Exclude:
+    - db/**/*
+    - Gemfile
+    - tmp/**/*
+    - vendor/**/*
+    - scripts/**/*
+    - config/**/*
+    - bin/**/*
+Metrics/LineLength:
+  Enabled: false
+Naming/MethodName:
+  EnforcedStyle: snake_case
+Rails:
+  Enabled: true
+Rails/HasAndBelongsToMany:
+  Enabled: false
+RSpec/LetSetup:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Max: 3
+RSpec/ExampleLength:
+  Max: 20

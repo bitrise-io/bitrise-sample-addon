@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/app'
 
-log = File.new("sinatra.log", "a+")
+log = File.new('.tmp/sinatra.log', 'a+')
 $stdout.reopen(log)
 $stderr.reopen(log)
 
