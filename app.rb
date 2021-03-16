@@ -3,8 +3,12 @@ require File.dirname(__FILE__) + '/errors'
 require 'sinatra/base'
 require 'sinatra/reloader'
 
+require 'pry-remote'
+
 # App router class
 class App < Sinatra::Base
+  puts "Server listening on #{ENV['PORT']}"
+
   set :bind, '0.0.0.0'
   set :port, ENV['PORT']
 

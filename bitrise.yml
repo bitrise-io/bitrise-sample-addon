@@ -6,7 +6,7 @@ app:
     - PORT: 3008
     - ADDON_TOKEN: development-token
     - ADDON_SSO_SECRET: development-sso-secret
-  
+
 workflows:
   setup:
     steps:
@@ -18,13 +18,12 @@ workflows:
 
             bundle install
 
-  start:
+  up:
     steps:
     - script:
         title: Start the service
         inputs:
         - content: |-
             #!/bin/bash
-
-            echo "Server listening on ${PORT}"
+            
             bash -c "rackup config.ru"
