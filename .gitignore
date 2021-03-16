@@ -1,3 +1,9 @@
 .bitrise.secrets.yml
 .tmp
 .tmp/*
+
+TAGS
+.DS_Store
+
+log
+log/*
