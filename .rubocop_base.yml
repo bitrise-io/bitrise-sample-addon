@@ -43,3 +43,5 @@ Style/GuardClause:
   Enabled: false
 Metrics/MethodLength:
   Max: 200
+Metrics/AbcSize:
+  Enabled: false

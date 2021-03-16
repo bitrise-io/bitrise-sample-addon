@@ -1,9 +1,24 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+/tmp
+!/log/.keep
+!/tmp/.keep
+
+# Ignore pidfiles, but keep the directory.
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+
 .bitrise.secrets.yml
-.tmp
-.tmp/*
 
 TAGS
 .DS_Store
-
-log
-log/*
