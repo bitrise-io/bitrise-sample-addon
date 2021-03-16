@@ -1,9 +1,8 @@
 require File.dirname(__FILE__) + '/data_store'
+require File.dirname(__FILE__) + '/bitrise_client'
 require File.dirname(__FILE__) + '/errors'
 require 'sinatra/base'
 require 'sinatra/reloader'
-
-require 'pry-remote'
 
 # App router class
 class App < Sinatra::Base
@@ -21,9 +20,19 @@ class App < Sinatra::Base
   sso_secret = ENV['ADDON_SSO_SECRET']
   data_store = DataStore.new
 
+  bitrise_client = BitriseClient.new(
+    base_url: ENV['AUTH_BASE_URL'], 
+    realm: ENV['AUTH_REALM'], 
+    client_id: ENV['AUTH_CLIENT_ID'], 
+    client_secret: ENV['AUTH_CLIENT_SECRET']
+  )
+
   before(%r{/(provision)/*\w*}) do
     # checking the Authentication request header
-    halt 401, { message: 'unauthorized' }.to_json if request.env['HTTP_AUTHENTICATION'] != addon_token
+    puts "Auth"
+
+    halt 401, { message: 'unauthorized' }.to_json if request.env['HTTP_AUTHENTICATION'].blank?
+    puts "Auth OK"
   end
 
   get '/' do
@@ -31,9 +40,16 @@ class App < Sinatra::Base
   end
 
   post '/provision' do
+    puts "Provisioning"
+
     request.body.rewind
     request_payload = JSON.parse(request.body.read)
     begin
+      auth_obj = bitrise_client.acquire_access_token_object(exchange_token: request.env['HTTP_AUTHENTICATION'])
+      puts "auth_obj"
+      puts auth_obj.inspect
+
+
       app = data_store.provision_addon_for_app!(request_payload['app_slug'], request_payload['app_title'],
                                                 request_payload['plan'], SecureRandom.hex(32))
     rescue StandardError => e
