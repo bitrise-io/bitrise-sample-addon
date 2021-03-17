@@ -6,10 +6,9 @@ Rails.application.routes.draw do
   get '/' => 'application#index'
 
   post '/provision' => 'addon#provision'
-  put '/provision/:app_slug' => 'addon#update'
   delete '/provision/:app_slug' => 'addon#delete'
 
-  post '/login' => 'use#login'
+  post '/login' => 'user#login'
 
   get '/ascii-art/:app_slug' => 'provider#ascii_provider'
 end

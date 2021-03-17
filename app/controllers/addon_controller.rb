@@ -15,7 +15,7 @@ class AddonController < ActionController::API
     )
 
     begin
-      auth_obj = bitrise_client.acquire_access_token_object(exchange_token: request.env['HTTP_AUTHENTICATION'])
+      auth_obj = bitrise_client.acquire_access_token_object(exchange_token: request.env['HTTP_AUTHORIZATION'])
     rescue StandardError => e
       return render json: { error: e.message }.to_json, status: :unauthorized
     end
@@ -33,18 +33,6 @@ class AddonController < ActionController::API
     render json: { envs: [{ "key": 'BITRISE_SAMPLE_ADDON_ACCESS_TOKEN', "value": app[:access_token] }] }.to_json, status: :ok
   end
 
-  def update
-    return render status: :unauthorized unless config_token_present?
-    return render json: { error: 'app cannot be found' }.to_json, status: :not_found if Datastore.get_app(params[:app_slug]).nil?
-
-    begin
-      Datastore.update_plan!(params[:app_slug], request_payload['plan'])
-      return render json: { message: 'ok' }.to_json, status: :ok
-    rescue StandardError => e
-      return render json: { error: e.to_s }.to_json, status: :bad_request
-    end
-  end
-
   def delete
     return render status: :unauthorized unless config_token_present?
 
@@ -55,7 +43,7 @@ class AddonController < ActionController::API
   private
 
   def authentication_header_resent?
-    render :unauthorized if request.headers['HTTP_AUTHENTICATION'].blank?
+    render :unauthorized if request.headers['HTTP_AUTHORIZATION'].blank?
   end
 
   def retrieve_request_payload
@@ -70,6 +58,6 @@ class AddonController < ActionController::API
   end
 
   def config_token_present?
-    ENV['ADDON_TOKEN'] == request.headers['HTTP_AUTHENTICATION']
+    ENV['ADDON_TOKEN'] == request.headers['HTTP_AUTHORIZATION']
   end
 end
