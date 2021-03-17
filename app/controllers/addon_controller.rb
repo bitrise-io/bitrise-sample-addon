@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class AddonController < ActionController::API
-  attr_reader :bitrise_client, :request_payload
+  attr_reader :bitrise_client, :request_payload, :jwt_token
 
-  before_action :authentication_header_resent?
+  before_action :verify_service_token
   before_action :retrieve_request_payload
 
   def provision
@@ -15,7 +15,7 @@ class AddonController < ActionController::API
     )
 
     begin
-      auth_obj = bitrise_client.acquire_access_token_object(exchange_token: request.env['HTTP_AUTHORIZATION'])
+      auth_obj = bitrise_client.acquire_access_token_object(exchange_token: jwt_token)
     rescue StandardError => e
       return render json: { error: e.message }.to_json, status: :unauthorized
     end
@@ -34,16 +34,29 @@ class AddonController < ActionController::API
   end
 
   def delete
-    return render status: :unauthorized unless config_token_present?
-
     Datastore.deprovision_addon_for_app(params[:app_slug])
     render json: { message: 'ok' }.to_json, status: :ok
   end
 
   private
 
-  def authentication_header_resent?
-    render plain: 'unauthorized', status: :unauthorized if request.headers['HTTP_AUTHORIZATION'].blank?
+  def verify_service_token
+    auth_header = request.headers['HTTP_AUTHORIZATION']
+    return render plain: 'unauthorized', status: :unauthorized if auth_header.blank?
+
+    token = get_token_from_header(auth_header)
+    valid = Service_token_verifier.valid?(
+      token: token,
+      audiences: []
+    )
+
+    return render plain: 'unauthorized', status: :unauthorized if !valid
+
+    @jwt_token = token
+  end
+
+  def get_token_from_header(auth_header)
+    auth_header.sub('Bearer ', '')
   end
 
   def retrieve_request_payload
