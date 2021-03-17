@@ -24,6 +24,22 @@ class DataProviderController < ActionController::API
     render plain: bitbot
   end
 
+  def app_details_provider
+    header = {
+      'Authorization' => "Bearer #{app.access_token}"
+    }
+
+    api_url = "https://api.bitrise.io/v0.2/apps/#{app.slug}"
+    resp = Faraday.get(api_url, nil, header)
+
+    response_body = JSON.parse(resp.body)
+    if resp.success?
+      return render json: response_body.to_json, status: :ok
+    end
+
+    render plain: response_body['error_description'], status: :bad_request
+  end
+
   private
 
   def verify_service_token

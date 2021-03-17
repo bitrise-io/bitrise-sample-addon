@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   post '/login' => 'user#login'
 
   get '/ascii-art/:app_slug' => 'data_provider#ascii_provider'
+  get '/app/:app_slug' => 'data_provider#app_details_provider'
 end
