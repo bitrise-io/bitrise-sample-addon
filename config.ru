@@ -1,7 +1,5 @@
-require File.dirname(__FILE__) + '/app'
+# This file is used by Rack-based servers to start the application.
 
-log = File.new("sinatra.log", "a+")
-$stdout.reopen(log)
-$stderr.reopen(log)
+require_relative 'config/environment'
 
-run App.run!
+run Rails.application

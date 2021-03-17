@@ -1,13 +1,34 @@
-# Bitrise Sample Add-on
+# Bitrise Sample Addon
 
-This sample add-on's purpose is to give the 3rd party developers a basic example for Bitrise Add-ons. Also it has a related [step implementation](https://www.bitrise.io/integrations/steps/ascii-generator) for understanding how the integration works with Bitrise workflows.
+This repo contains a sample Bitrise addon implementation. It's made for 3rd party developers who are about to develope a Bitrise addon.
 
-## What this add-on does?
+What does an addon? A good example is the [Trace addon](https://www.bitrise.io/add-ons/trace-mobile-monitoring) and/or [Ship addon](https://blog.bitrise.io/deploy-with-bitrise-ship-open-beta).
 
-It's quite simple, you put the related step to your workflow and the add-on sends a Bitrise-themed ASCII art to the VM, which prints that to the build log. For the sake of example it has to examples, the first one is a `free`, which limits the number of successful ASCII art requests in 5. Also there is an `unlimited` plan, which allows unlimited number of requests.
+## Project overview
 
-## Structure
+An addon is basically a microservice with a fixed interface (endpoints)
 
-The project uses [Sinatra](http://sinatrarb.com) for implementing this application logic and stores in memory the application data to keep it lightweight.
+- Language: Ruby
+- Web framework: Rails
 
-You can find the handler implementations in the `app.rb` file, while the `data_store.rb` implements the in-memory data store of the application. In the `/views` folder the `dashboard.html.erb` shows an example of integrating the Bitrise Beam on the dashboard of your add-on. The project is dockerized and you can use `docker-compose up` command for starting the add-on locally.
+It was generated as a rails minimal API project without the ActiveRecords DB library.
+
+## Mandatory endpoints
+
+All endpoint must be idenpotent! A persistance layer is highly recommended because an addon need to store access tokens.
+
+An addon must implement the following endpoints:
+
+### Provisioning endpoint
+
+`POST /provision`
+
+### Deprovision endpoint
+
+`DELETE /provision/:app_slug`
+
+### Login (SSO) endpoint
+
+`POST /login`
+
+## Important files in the repo
