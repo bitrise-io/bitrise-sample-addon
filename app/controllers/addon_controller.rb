@@ -43,7 +43,7 @@ class AddonController < ActionController::API
   private
 
   def authentication_header_resent?
-    render :unauthorized if request.headers['HTTP_AUTHORIZATION'].blank?
+    render plain: 'unauthorized', status: :unauthorized if request.headers['HTTP_AUTHORIZATION'].blank?
   end
 
   def retrieve_request_payload

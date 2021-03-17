@@ -65,7 +65,7 @@ module Addon
       end
 
       @request_numbers[app_slug] = 0 if !@request_numbers[app_slug]
-      if @request_numbers[app_slug] >= 5
+      if @request_numbers[app_slug] >= 10
         raise 'no more request is enabled, upgrade to `unlimited` plan for more'
       else
         @request_numbers[app_slug] = @request_numbers[app_slug] + 1
